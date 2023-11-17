@@ -54,6 +54,8 @@ void quick_sort(int *array, size_t size)
 {
 	size_t small, large, mid;
 
+	if (!array || size < 2)
+		return;
 	if (size > 1)
 	{
 		small = 0;
