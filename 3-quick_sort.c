@@ -28,9 +28,9 @@ size_t lomuto(int *array, size_t small, size_t large)
 
 	pivot = array[large];
 	i = small;
-	for (j = small + 1; j <= large; j++)
+	for (j = small; j < large; j++)
 	{
-		if (array[j] < pivot)
+		if (array[j] <= pivot)
 		{
 			i++;
 			temp = array[i];
