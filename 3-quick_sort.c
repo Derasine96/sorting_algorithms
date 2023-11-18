@@ -17,32 +17,48 @@ void swap(int *a, int *b)
 /**
  * lomuto - partitions the array around a pivot element
  * @array: pointer to an array of integers
- * @small: low index for the current iteration
- * @large: high index for the current iteration
+ * @size: array length
+ * @pivot_index: the index of the pivot
  * Return: the new pos. of the pivot element after partitioning
  */
-size_t lomuto(int *array, size_t small, size_t large)
+size_t lomuto(int *array, size_t size, int pivot_index)
 {
-	int pivot, temp;
-	size_t i, j;
+	int pivot, i, j, *large = NULL, *small = NULL;
 
-	pivot = array[large];
-	i = small;
-	for (j = small; j < large; j++)
+	pivot = array[pivot_index];
+
+	for (i = 0; i < pivot_index; i++)
 	{
-		if (array[j] <= pivot)
+		if (array[i] > pivot)
 		{
-			i++;
-			temp = array[i];
-			array[i] = array[j];
-			array[j] = temp;
+			large = &array[i];
+			break;
 		}
 	}
-	temp = array[small];
-	array[small] = array[i];
-	array[i] = temp;
-	print_array(array, large - small + 1);
-	return (i);
+	if (pivot_index < 0)
+		return (size);
+	if (large == NULL)
+		return (lomuto(array, size, pivot_index - 1));
+	for (j = pivot_index - 1; j >= 0; j--)
+	{
+		if (array[j] < pivot)
+		{
+			small = &array[j];
+			break;
+		}
+	}
+	if (small == NULL || i > j)
+	{
+		swap(&array[i], &array[pivot_index]);
+		print_array(array, size);
+		return (i);
+	}
+	else
+	{
+		swap(&array[i], &array[j]);
+		print_array(array, size);
+		return (lomuto(array, size, pivot_index));
+	}
 }
 
 /**
@@ -52,22 +68,11 @@ size_t lomuto(int *array, size_t small, size_t large)
  */
 void quick_sort(int *array, size_t size)
 {
-	size_t small, large, mid;
+	size_t res;
 
-	if (!array || size < 2)
+	if (size < 2)
 		return;
-	if (size > 1)
-	{
-		small = 0;
-		large = size - 1;
-		while (small <= large)
-		{
-			mid = lomuto(array, small, large);
-			if (mid > small)
-			{
-				quick_sort(array + small, mid - small);
-			}
-			small = mid + 1;
-		}
-	}
+	res = lomuto(array, size, size - 1);
+	if (res != size)
+		quick_sort(array, size);
 }
