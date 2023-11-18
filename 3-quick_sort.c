@@ -70,7 +70,7 @@ void quick_sort(int *array, size_t size)
 {
 	size_t res;
 
-	if (size < 2)
+	if (!array || size < 2)
 		return;
 	res = lomuto(array, size, size - 1);
 	if (res != size)
