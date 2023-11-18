@@ -35,7 +35,7 @@ size_t lomuto(int *array, size_t size, int pivot_index)
 			break;
 		}
 	}
-	if (pivot_index < 0)
+	if (pivot_index == 0)
 		return (size);
 	if (large == NULL)
 		return (lomuto(array, size, pivot_index - 1));
