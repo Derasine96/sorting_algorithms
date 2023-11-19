@@ -25,6 +25,9 @@ size_t lomuto(int *array, size_t size, int pivot_index)
 {
 	int pivot, i, j, *large = NULL, *small = NULL;
 
+	if (pivot_index == 0)
+		return (size);
+
 	pivot = array[pivot_index];
 
 	for (i = 0; i < pivot_index; i++)
@@ -35,8 +38,6 @@ size_t lomuto(int *array, size_t size, int pivot_index)
 			break;
 		}
 	}
-	if (pivot_index == 0)
-		return (size);
 	if (large == NULL)
 		return (lomuto(array, size, pivot_index - 1));
 	for (j = pivot_index - 1; j >= 0; j--)
