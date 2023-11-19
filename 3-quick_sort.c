@@ -48,7 +48,7 @@ size_t lomuto(int *array, size_t size, int pivot_index)
 			break;
 		}
 	}
-	if (small == NULL || i > j)
+	if (small == NULL || i >= j)
 	{
 		swap(&array[i], &array[pivot_index]);
 		print_array(array, size);
