@@ -1,5 +1,7 @@
 #include "sort.h"
 
+int lomuto(int *, int, int, size_t);
+void sorter(int *, int, int, size_t);
 /**
  * swap - swaps two integers
  * @a: first integer
