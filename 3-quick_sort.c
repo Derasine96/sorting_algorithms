@@ -1,79 +1,72 @@
 #include "sort.h"
 
 /**
- * swap - swaps two integers
- * @a: first integer
- * @b: second integer
- */
-void swap(int *a, int *b)
-{
-	int temp;
-
-	temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-/**
- * lomuto - partitions the array around a pivot element
- * @array: pointer to an array of integers
- * @size: array length
- * @pivot_index: the index of the pivot
- * Return: the new pos. of the pivot element after partitioning
- */
-size_t lomuto(int *array, size_t size, int pivot_index)
-{
-	int pivot, i, j, *large = NULL, *small = NULL;
-
-	if (pivot_index == 0)
-		return (size);
-
-	pivot = array[pivot_index];
-
-	for (i = 0; i < pivot_index; i++)
-	{
-		if (array[i] > pivot)
-		{
-			large = &array[i];
-			break;
-		}
-	}
-	if (large == NULL)
-		return (lomuto(array, size, pivot_index - 1));
-	for (j = pivot_index - 1; j >= 0; j--)
-	{
-		if (array[j] < pivot)
-		{
-			small = &array[j];
-			break;
-		}
-	}
-	if (small == NULL || i >= j)
-	{
-		swap(&array[i], &array[pivot_index]);
-		print_array(array, size);
-		return (i);
-	}
-	else
-	{
-		swap(&array[i], &array[j]);
-		print_array(array, size);
-		return (lomuto(array, size, pivot_index));
-	}
-}
-
-/**
- * quick_sort - sorts an array using Quick Sort algorithm
- * @array: pointer to an array of integers
- * @size: size of integers
+ * quick_sort - function that sorts an array of integers
+ *              in ascending order using the Quick sort algorithm
+ * @array: array
+ * @size: array's size
+ * Return: void
  */
 void quick_sort(int *array, size_t size)
 {
-	size_t res;
-
-	if (!array || size < 2)
+	if (array == NULL || size < 2)
 		return;
-	res = lomuto(array, size, size - 1);
-	if (res != size)
-		quick_sort(array, size);
+	sorter(array, 0, size - 1, size);
+}
+
+/**
+ * lomuto - partition function
+ * @array: array
+ * @low: lower
+ * @high: higher
+ * @size: array's size
+ * Return: pivot
+ */
+int lomuto(int *array, int low, int high, size_t size)
+{
+	int i = low - 1, j = low;
+	int pivot = array[high], temp = 0;
+
+	for (; j < high; j++)
+	{
+		if (array[j] < pivot)
+		{
+			i++;
+			if (array[i] != array[j])
+			{
+				temp = array[i];
+				array[i] = array[j];
+				array[j] = temp;
+				print_array(array, size);
+			}
+		}
+	}
+	if (array[i + 1] != array[high])
+	{
+		temp = array[i + 1];
+		array[i + 1] = array[high];
+		array[high] = temp;
+		print_array(array, size);
+	}
+	return (i + 1);
+}
+
+/**
+ * sorter - does the actual sorting
+ * @array: given array
+ * @low: lower
+ * @high:higher
+ * @size: array's size
+ * Return: void
+ */
+void sorter(int *array, int low, int high, size_t size)
+{
+	int pivot;
+
+	if (low < high)
+	{
+		pivot = lomuto(array, low, high, size);
+		sorter(array, low, pivot - 1, size);
+		sorter(array, pivot + 1, high, size);
+	}
 }
