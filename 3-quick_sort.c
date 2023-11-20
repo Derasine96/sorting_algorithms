@@ -1,6 +1,20 @@
 #include "sort.h"
 
 /**
+ * swap - swaps two integers
+ * @a: first integer
+ * @b: second integer
+ */
+void swap(int *a, int *b)
+{
+	int temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+/**
  * quick_sort - function that sorts an array of integers
  *              in ascending order using the Quick sort algorithm
  * @array: array
@@ -25,7 +39,7 @@ void quick_sort(int *array, size_t size)
 int lomuto(int *array, int low, int high, size_t size)
 {
 	int i = low - 1, j = low;
-	int pivot = array[high], temp = 0;
+	int pivot = array[high];
 
 	for (; j < high; j++)
 	{
@@ -34,18 +48,14 @@ int lomuto(int *array, int low, int high, size_t size)
 			i++;
 			if (array[i] != array[j])
 			{
-				temp = array[i];
-				array[i] = array[j];
-				array[j] = temp;
+				swap(&array[i], &array[j]);
 				print_array(array, size);
 			}
 		}
 	}
 	if (array[i + 1] != array[high])
 	{
-		temp = array[i + 1];
-		array[i + 1] = array[high];
-		array[high] = temp;
+		swap(&array[i + 1], &array[high]);
 		print_array(array, size);
 	}
 	return (i + 1);
